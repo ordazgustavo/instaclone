@@ -7,19 +7,14 @@ import Main from '../components/Main'
 import PostCard from '../components/PostCard'
 import StoriesCard from '../components/StoriesCard'
 import UserInfo from '../components/UserInfo'
+import SuggestionsCard from '../components/SuggestionsCard'
 
 import postsGenerator from '../utils/postsGenerator'
 import userGenerator from '../utils/userGenerator'
 import storiesGenerator from '../utils/storiesGenerator'
 import suggestionsGenerator from '../utils/suggestionsGenerator'
-import SuggestionsCard from '../components/SuggestionsCard'
 
-const POSTS = postsGenerator(5)
-const USER_INFO = userGenerator()
-const STORIES = storiesGenerator(10)
-const SUGGESTIONS = suggestionsGenerator(3)
-
-function Home() {
+function Home({ posts, userInfo, stories, suggestions }) {
   return (
     <section>
       <Head>
@@ -27,23 +22,27 @@ function Home() {
           href="https://fonts.googleapis.com/css?family=Roboto:400,500,700"
           rel="stylesheet"
         />
+        <link
+          href="https://fonts.googleapis.com/css?family=Dancing+Script"
+          rel="stylesheet"
+        />
       </Head>
       <Header />
       <Main>
         <section className="page-wrapper">
           <div className="posts-wrapper">
-            {POSTS.map(post => (
+            {posts.map(post => (
               <PostCard key={post.id} {...post} />
             ))}
           </div>
           <div className="stories-wrapper">
             <UserInfo
               photoSize={58}
-              label={`${USER_INFO.firstName} ${USER_INFO.lastName}`}
-              {...USER_INFO}
+              label={`${userInfo.firstName} ${userInfo.lastName}`}
+              {...userInfo}
             />
-            <StoriesCard stories={STORIES} />
-            <SuggestionsCard suggestions={SUGGESTIONS} />
+            <StoriesCard stories={stories} />
+            <SuggestionsCard suggestions={suggestions} />
           </div>
         </section>
       </Main>
@@ -80,6 +79,21 @@ function Home() {
       `}</style>
     </section>
   )
+}
+
+Home.getInitialProps = async ({ req }) => {
+  let posts = []
+  let userInfo = []
+  let stories = []
+  let suggestions = []
+
+  if (req) {
+    posts = postsGenerator(5)
+    userInfo = userGenerator()
+    stories = storiesGenerator(10)
+    suggestions = suggestionsGenerator(3)
+  }
+  return { posts, userInfo, stories, suggestions }
 }
 
 export default Home

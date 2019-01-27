@@ -41,7 +41,7 @@ function UserInfo({ photoSize, profilePhoto, username, label, action }) {
         }
         .username-wrapper .label {
           color: #999;
-          font-size: 12px;
+          font-size: 10px;
           line-height: 14px;
           overflow: hidden;
           text-overflow: ellipsis;

@@ -1,5 +1,6 @@
 import React from 'react'
 import { FiHeart, FiShare, FiMessageCircle, FiBookmark } from 'react-icons/fi'
+import { distanceInWords } from 'date-fns'
 
 function PostCard({
   user,
@@ -65,8 +66,8 @@ function PostCard({
         </div>
         <div className="likes">
           <div className="like-photos">
-            {likePhotos.map((ph, i) => (
-              <span className="like-photo-wrapper">
+            {likePhotos.map(ph => (
+              <span key={ph} className="like-photo-wrapper">
                 <img className="like-photo" src={ph} alt="" />
               </span>
             ))}
@@ -85,7 +86,7 @@ function PostCard({
               <button type="button">Cargar más comentarios</button>
             </li>
             {comments.map(comm => (
-              <li className="user-comment">
+              <li key={comm.id} className="user-comment">
                 <div>
                   <span className="user">{comm.username}</span>
                   <span>{comm.comment}</span>
@@ -98,7 +99,9 @@ function PostCard({
           </ul>
         </div>
         <div className="date">
-          <time date={postDate.toISOString()}>{postDate.toTimeString()}</time>
+          <time date={postDate.toISOString()}>
+            {distanceInWords(new Date(postDate), new Date())}
+          </time>
         </div>
       </div>
       <style jsx>{`
@@ -225,6 +228,7 @@ function PostCard({
           font-size: 10px;
           letter-spacing: 0.2px;
           line-height: 18px;
+          text-transform: uppercase;
         }
       `}</style>
     </article>

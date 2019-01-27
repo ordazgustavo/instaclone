@@ -1,4 +1,6 @@
 import React from 'react'
+import { distanceInWords } from 'date-fns'
+
 import UserInfo from './UserInfo'
 
 function StoriesCard({ stories }) {
@@ -14,7 +16,10 @@ function StoriesCard({ stories }) {
             <UserInfo
               key={user.id}
               photoSize={44}
-              label={user.date}
+              label={distanceInWords(
+                new Date(user.date),
+                new Date()
+              ).toUpperCase()}
               {...user}
             />
           ))}
